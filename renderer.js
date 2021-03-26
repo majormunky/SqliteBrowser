@@ -6,13 +6,14 @@ document.getElementById("open-file-button").addEventListener("click", (event) =>
 
 ipcRenderer.on("db-tables-loaded", (event, data) => {
     let output = ""
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < data.table_names.length; i++) {
         output += "<span class='nav-group-item'>"
-        output += data[i]
+        output += data.table_names[i]
         output += "</span>"
     }
 
     document.getElementById("db-table-wrapper").innerHTML += output
+    document.getElementById("database-filename").innerHTML = `Database: ${data.database_name}`
 })
 
 function deselect_any_menu_items() {
