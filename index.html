@@ -5,6 +5,14 @@
         <meta name="viewport" contnet="width=device-width, initial-scale=1.0">
         <title></title>
         <link rel="stylesheet" href="assets/css/photon.css">
+        <style>
+            #database-filename {
+                margin-left: 2em;
+                position: relative;
+                top: 3px;
+                display: inline-block;
+            }
+        </style>
     </head>
     <body>
         <div class="window">
@@ -12,9 +20,11 @@
                 <div class="toolbar-actions">
                     <div class="btn-group">
                         <button class="btn btn-default" id="open-file-button">
-                            <span class="icon icon-folder"></span>
+                            <span class="icon icon-folder icon-text"></span>
+                            Open
                         </button>
                     </div>
+                    <span id="database-filename">Database: -No Database Loaded-</span>
                 </div>
             </header>
             <div class="window-content">
