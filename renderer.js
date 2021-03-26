@@ -23,5 +23,40 @@ document.getElementById("db-table-wrapper").addEventListener("click", (event) =>
 })
 
 ipcRenderer.on("table-rows-ready", (event, data) => {
-    console.log(data)
+    // this happens when we have selected a table from the sidebar
+    // we need to render the column headers and then the rows
+    // from the table selected
+
+    // this is our main table we render into
+    let table_ele = document.getElementById("main-table")
+
+    // build our column header
+    let table_header = "<tr>"
+    for (var i = 0; i < data.columns.length; i++) {
+        table_header += `<th>${data.columns[i]}</th>`
+    }
+    table_header += "</tr>"
+    // then set the output to our thead
+    table_ele.querySelector("thead").innerHTML = table_header
+
+    // now we need to render the rows
+    let row, col_name
+    let row_output = ""
+    for (var j = 0; j < data.rows.length; j++) {
+        row = data.rows[j]
+        row_output += "<tr>"
+        // our row object keys may not be in the same order
+        // as our column headers, so, to ensure that they line up
+        // we loop over our column list and render fields by the column name
+        for (var c = 0; c < data.columns.length; c++) {
+            col_name = data.columns[c]
+            row_output += `<td>${row[col_name]}</td>`
+        }
+        row_output += "</tr>"
+    }
+    // set our main table html
+    table_ele.querySelector("tbody").innerHTML = row_output
+
+    // show the table
+    table_ele.style.display = "table"
 })
