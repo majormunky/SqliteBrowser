@@ -6,10 +6,10 @@ document.getElementById("open-file-button").addEventListener("click", (event) =>
 
 ipcRenderer.on("db-tables-loaded", (event, data) => {
     let output = ""
+    let table_name
     for (var i = 0; i < data.table_names.length; i++) {
-        output += "<span class='nav-group-item'>"
-        output += data.table_names[i]
-        output += "</span>"
+        table_name = data.table_names[i]
+        output += `<span class='nav-group-item' data-db-name='${table_name}'>${table_name}</span>`
     }
 
     document.getElementById("db-table-wrapper").innerHTML += output
@@ -20,6 +20,11 @@ function deselect_any_menu_items() {
     document.querySelectorAll(".active").forEach((el) => {
         el.classList.remove("active")
     })
+}
+
+function highlight_table_item(table_name) {
+    deselect_any_menu_items()
+    document.querySelector(`[data-db-name='${table_name}']`)?.classList.add("active")
 }
 
 document.getElementById("db-table-wrapper").addEventListener("click", (event) => {
@@ -35,6 +40,7 @@ ipcRenderer.on("table-rows-ready", (event, data) => {
     // this happens when we have selected a table from the sidebar
     // we need to render the column headers and then the rows
     // from the table selected
+    highlight_table_item(data.table)
 
     // this is our main table we render into
     let table_ele = document.getElementById("main-table")

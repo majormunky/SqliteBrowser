@@ -45,7 +45,7 @@ ipcMain.on("open-file-button-clicked", async (event) => {
 })  
 
 ipcMain.on("db-table-selected", async (event, data) => {
-    let results = {"columns": null, "rows": []}
+    let results = {"columns": null, "rows": [], "table": data}
     let sql_statement = sql.select().from(data).toString()
 
     db.all(sql_statement, [], (error, rows) => {
