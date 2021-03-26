@@ -21,7 +21,9 @@ app.on("ready", () => {
 
 ipcMain.on("open-file-button-clicked", async (event) => {
     let result = await dialog.showOpenDialog(win)
-    let table_names = []
+    let db_path = result.filePaths[0]
+    let db_name = db_path.split("/").pop()
+    let response = {"table_names": [], "database_name": db_name}
     
     db = new sqlite3.Database(result.filePaths[0])
 
@@ -35,10 +37,10 @@ ipcMain.on("open-file-button-clicked", async (event) => {
         }
 
         rows.forEach((row) => {
-            table_names.push(row.name)
+            response.table_names.push(row.name)
         })
 
-        event.reply("db-tables-loaded", table_names)
+        event.reply("db-tables-loaded", response)
     })
 })  
 
