@@ -57,6 +57,11 @@ ipcRenderer.on("table-rows-ready", (event, data) => {
     // now we need to render the rows
     let row, col_name
     let row_output = ""
+
+    // this takes a long time if we have a bunch of rows
+    // i wonder if we can just render the first 20 or so rows
+    // show the rows to the user, and then in an async function
+    // render the rest of the rows?
     for (var j = 0; j < data.rows.length; j++) {
         row = data.rows[j]
         row_output += "<tr>"
