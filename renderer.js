@@ -15,9 +15,17 @@ ipcRenderer.on("db-tables-loaded", (event, data) => {
     document.getElementById("db-table-wrapper").innerHTML += output
 })
 
+function deselect_any_menu_items() {
+    document.querySelectorAll(".active").forEach((el) => {
+        el.classList.remove("active")
+    })
+}
+
 document.getElementById("db-table-wrapper").addEventListener("click", (event) => {
     if (event.target.matches(".nav-group-item")) {
         let table_name_clicked = event.target.innerHTML
+        deselect_any_menu_items()
+        event.target.classList.add("active")
         ipcRenderer.send("db-table-selected", table_name_clicked)
     }
 })
