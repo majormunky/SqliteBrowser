@@ -44,7 +44,7 @@ ipcMain.on("open-file-button-clicked", async (event) => {
 })  
 
 ipcMain.on("db-table-selected", async (event, data) => {
-    let results = []
+    let results = {"columns": null, "rows": []}
     let sql_statement = sql.select().from(data).toString()
 
     db.all(sql_statement, [], (error, rows) => {
@@ -52,10 +52,12 @@ ipcMain.on("db-table-selected", async (event, data) => {
             console.log("Error:", error)
             return
         }
-        
-        console.log(rows)
+
         rows.forEach((row) => {
-            results.push(row)
+            results.rows.push(row)
+            if (results.columns === null) {
+                results.columns = Object.keys(row)
+            }
         })
 
         event.reply("table-rows-ready", results)
