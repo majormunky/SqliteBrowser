@@ -35,7 +35,6 @@ ipcMain.on("open-file-button-clicked", async (event) => {
         }
 
         rows.forEach((row) => {
-            console.log(row.name)
             table_names.push(row.name)
         })
 
